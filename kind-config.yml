@@ -4,5 +4,11 @@ kind: Cluster
 name: edge-labs-cluster
 nodes:
   - role: control-plane
+    # Mapeamento nativo: Conecta a porta 80 do Windows à porta 30080 do Kubernetes
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 80
+        protocol: TCP
   - role: worker
   - role: worker
+  
