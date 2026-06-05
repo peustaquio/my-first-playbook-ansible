@@ -6,4 +6,30 @@ metadata:
   namespace: telecom-edge
 data:
   index.html: |
-    <h1> Hello Pedro! This site runs via native ConfigMap on the Edge!</h1>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Telecom Edge Node</title>
+    </head>
+    <body>
+        <h1>Hello Pedro! This site runs via native ConfigMap on the Edge!</h1>
+    </body>
+    </html>
+
+  # 👇 INJETAMOS A CONFIGURAÇÃO DO PROXY COM O MÓDULO DE MÉTRICAS LEVE
+  default.conf: |
+    server {
+        listen 80;
+        server_name localhost;
+
+        location / {
+            root /usr/share/nginx/html;
+            index index.html index.htm;
+        }
+
+        # 📊 Rota interna para monitorar tráfego de redes e conexões
+        location /metrics {
+            stub_status on;
+            allow all;
+        }
+    }

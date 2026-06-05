@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: edge-ingress
+  namespace: telecom-edge
+spec:
+  ingressClassName: nginx # 👈 Diz ao cluster para usar o controlador que instalamos
+  rules:
+    - host: borda.operadora.com # 👈 O seu domínio customizado de Telecom!
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-service # 👈 Direciona para o seu Service
+                port:
+                  number: 80 # 👈 Porta interna do container
