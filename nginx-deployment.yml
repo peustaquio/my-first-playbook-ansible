@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-webserver
+  namespace: telecom-edge
 spec:
   replicas: 3
   selector:
