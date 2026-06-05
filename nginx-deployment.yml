@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-webserver   # Nome do nosso gerenciador de pods
+  labels:
+    app: meu-app
+spec:
+  replicas: 3             # Quantidade de cópias idênticas que queremos rodando
+  selector:
+    matchLabels:
+      app: meu-app        # Diz ao Deployment quais Pods ele deve gerenciar
+  template:
+    metadata:
+      labels:
+        app: meu-app      # Etiqueta aplicada diretamente nos Pods criados
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine # Imagem super leve do servidor Web Nginx
+          ports:
+            - containerPort: 80 # Porta padrão que o Nginx escuta
