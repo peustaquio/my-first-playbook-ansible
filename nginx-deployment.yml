@@ -19,6 +19,18 @@ spec:
           image: nginx:latest
           ports:
             - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
           # 👇 1. ONDE o arquivo vai aparecer dentro do contêiner do Nginx
           volumeMounts:
             - name: html-volume
