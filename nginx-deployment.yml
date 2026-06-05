@@ -2,21 +2,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-webserver   # Nome do nosso gerenciador de pods
-  labels:
-    app: meu-app
+  name: nginx-webserver
 spec:
-  replicas: 3             # Quantidade de cópias idênticas que queremos rodando
+  replicas: 3
   selector:
     matchLabels:
-      app: meu-app        # Diz ao Deployment quais Pods ele deve gerenciar
+      app: nginx
   template:
     metadata:
       labels:
-        app: meu-app      # Etiqueta aplicada diretamente nos Pods criados
+        app: nginx
     spec:
       containers:
         - name: nginx
-          image: nginx:alpine # Imagem super leve do servidor Web Nginx
+          image: nginx:latest
           ports:
-            - containerPort: 80 # Porta padrão que o Nginx escuta
+            - containerPort: 80
+          # 👇 1. ONDE o arquivo vai aparecer dentro do contêiner do Nginx
+          volumeMounts:
+            - name: html-volume
+              mountPath: /usr/share/nginx/html
+      # 👇 2. DE ONDE o Kubernetes vai puxar esse arquivo (do seu ConfigMap)
+      volumes:
+        - name: html-volume
+          configMap:
+            name: nginx-site-html
+            

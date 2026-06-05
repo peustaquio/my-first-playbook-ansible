@@ -6,9 +6,10 @@ metadata:
 spec:
   type: NodePort           # Tipo de serviço que abre uma porta nos nós do cluster
   selector:
-    app: meu-app           # Alvo: Encontra os Pods que têm essa mesma etiqueta
+    app: nginx          # Alvo: Encontra os Pods que têm essa mesma etiqueta
   ports:
     - protocol: TCP
       port: 80             # Porta que o Serviço expõe dentro do cluster
       targetPort: 80       # Porta real onde o contêiner do Nginx escuta
       nodePort: 30080      # Porta fixa que poderemos acessar por fora (entre 30000 e 32767)
+      
