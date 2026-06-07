@@ -1,0 +1,34 @@
+---
+- name: Deploy Telecom Edge Infrastructure on Kubernetes
+  hosts: localhost
+  connection: local
+  tasks:
+
+    - name: Ensure the telecom-edge namespace exists
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: telecom-edge
+
+    - name: Apply Nginx Configurations (ConfigMap)
+      kubernetes.core.k8s:
+        state: present
+        src: ./nginx-configmap.yml
+
+    - name: Deploy Nginx Webserver (Deployment)
+      kubernetes.core.k8s:
+        state: present
+        src: ./nginx-deployment.yml
+
+    - name: Expose Nginx Webserver (Service)
+      kubernetes.core.k8s:
+        state: present
+        src: ./nginx-service.yml
+
+    - name: Apply Edge Routing Rules (Ingress)
+      kubernetes.core.k8s:
+        state: present
+        src: ./nginx-ingress.yml
